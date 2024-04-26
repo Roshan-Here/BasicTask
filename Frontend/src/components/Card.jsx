@@ -4,17 +4,17 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import React from 'react'
 
 
-function Card() {
+function Card({ename,eid,handledelete}) {
   return (
         <div className="py-1 items-center justify-center">
-          <div className="flex flex-col mx-auto bg-yy  rounded-xl shadow-md overflow-hidden md:max-w-xl m-1">
-                <div className="px-24 py-6 flex justify-between items-center text-white hover:text-yy">
-                    <div className="sm:pr-16">
-                        <p className="text-xl font-bold">id:</p>
+          <div className="flex flex-col mx-auto bg-gradient-to-tr from-slate-600 to-amber-200  rounded-xl shadow-md overflow-hidden md:max-w-xl m-1">
+                <div className="px-32 py-6 flex justify-between items-center text-white hover:text-yy">
+                    <div className="sm:pr-4">
+                        <p className="text-xl font-bold">id: {eid}</p>
                     </div>
                     <div>
                         <div className="uppercase tracking-wide text-lg font-semibold">
-                            Name: Leo
+                            {ename}
                         </div>
                     </div>
                     <div>
@@ -24,7 +24,7 @@ function Card() {
                     </div>
                     <div>
                         <div>
-                        <FontAwesomeIcon className='text-2xl text-red-500' icon={faTrash} />
+                        <FontAwesomeIcon className='text-2xl text-red-500' onClick={()=>handledelete(eid)} icon={faTrash} />
                         </div>
                     </div>
                 </div>
