@@ -11,17 +11,19 @@ function Home() {
     const [searchValue, setSearchValue] = useState('');
     const [prevdata, setprevdata] = useState([]);
     // console.log(Edatas)
-    // const [dataas, setdataas] = useState([])
+    const [dataas, setdataas] = useState([])
     console.log(Edatas)
+
     useEffect(()=>{
         getdata(dispatch)
+        setdataas(Edatas)
     },[])
 
     const handledelete=(eid)=>{
         let newdata = Edatas.filter(item=>item.id!==eid)
         console.log('newdata: ',newdata)
         dispatch(setEdatas(newdata))
-        // setdataas(newdata)
+        setdataas(newdata)
     }
 
     const handleChange = (event) => {
@@ -31,9 +33,11 @@ function Home() {
         if (value !== '') {
             let searchData = Edatas.filter((item) => item.id === parseInt(value));
             dispatch(setEdatas(searchData));
+            setdataas(searchData)
         } else {
 
             dispatch(setEdatas(prevdata));
+            setdataas(prevdata)
         }
     };
 
@@ -55,7 +59,7 @@ function Home() {
             </div>
         </div>
                 {
-                    Edatas.map((data)=>(
+                    dataas.map((data)=>(
                             <Card
                             key={data.id}
                             ename={data.employee_name}
