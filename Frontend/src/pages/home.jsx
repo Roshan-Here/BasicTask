@@ -48,7 +48,7 @@ function Home() {
       <div className='flex flex-col justify-center items-center'>
         <div className='m-4 border border-red-500 rounded-xl'>
                 <input
-                className='px-12 py-3 bg-zinc-700 hover:bg-cyan-950' 
+                className='px-12 py-3 bg-zinc-700 text-white hover:bg-cyan-950' 
                 placeholder='Enter the id to be searched' 
                 type="text"
                 onChange={handleChange}
