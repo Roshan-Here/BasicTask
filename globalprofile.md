@@ -1,4 +1,5 @@
-# 🌍 GlobalProfile  
+
+<span style="color: blue; font-size: 40px">🌍 GlobalProfile  </span>
 
 🚀 **Create stunning portfolios and professional resumes effortlessly!**  
 
