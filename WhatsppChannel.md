@@ -15,6 +15,11 @@ Finding the right job can be tough, but **real-time updates** can make all the d
 - ✅ **Instant updates** on new openings & deadlines.  
 - ✅ **Faster applications** to beat the competition.  
 
+
+![INFOPARK](./public/INFOPARK.jpeg)
+![TECHNOPARK](./public/TECHNOPARK.jpeg)
+![DEADLINE](./public/DEADLINE.jpeg)
+
 ## 💼 Take the Next Step in Your Career  
 Don’t wait for opportunities to find you—**stay updated, apply fast, and land your dream job!** Join now and start your journey.  
 
