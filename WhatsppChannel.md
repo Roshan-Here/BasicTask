@@ -16,9 +16,9 @@ Finding the right job can be tough, but **real-time updates** can make all the d
 - ✅ **Faster applications** to beat the competition.  
 
 
-![INFOPARK](./public/INFOPARK.jpeg)
-![TECHNOPARK](./public/TECHNOPARK.jpeg)
-![DEADLINE](./public/DEADLINE.jpeg)
+![INFOPARK](https://raw.githubusercontent.com/Roshan-Here/BasicTask/refs/heads/projects.me/public/INFOPARK.jpeg)
+![TECHNOPARK](https://raw.githubusercontent.com/Roshan-Here/BasicTask/refs/heads/projects.me/public/TECHNOPARK.jpeg)
+![DEADLINE](https://raw.githubusercontent.com/Roshan-Here/BasicTask/refs/heads/projects.me/public/DEADLINE.jpeg)
 
 ## 💼 Take the Next Step in Your Career  
 Don’t wait for opportunities to find you—**stay updated, apply fast, and land your dream job!** Join now and start your journey.  
