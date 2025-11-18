@@ -1,6 +1,7 @@
 "use client";
 
 import { NormalizedReview } from "@/types/reviews";
+import Link from "next/link";
 
 interface ReviewsTableProps {
   reviews: NormalizedReview[];
@@ -34,7 +35,21 @@ export function ReviewsTable({ reviews, onToggleApproved }: ReviewsTableProps) {
           </thead>
           <tbody className="divide-y divide-slate-100">
             {reviews.map((r) => (
+              
               <tr key={r.id} className="hover:bg-slate-50/70">
+                <td className="px-4 py-3 align-top">
+                  <Link
+                    href={`/${r.listingId}`}
+                    className="group inline-flex max-w-[200px] flex-col"
+                  >
+                    <span className="truncate font-medium text-slate-900 group-hover:underline">
+                      {r.listingName}
+                    </span>
+                    <span className="text-[11px] text-slate-500">
+                      View property page
+                    </span>
+                  </Link>
+                </td>
                 <td className="px-4 py-3 align-top">
                   <div className="max-w-[180px] truncate font-medium text-slate-900">
                     {r.listingName}
@@ -161,7 +176,7 @@ function ApprovalToggle({ approved, onChange }: ApprovalToggleProps) {
     <button
       type="button"
       onClick={() => onChange(!approved)}
-      className={`inline-flex items-center gap-1 rounded-full border px-2 py-1 text-[11px] font-medium transition ${
+      className={`w-full flex  justify-center text-center items-center gap-1 rounded-[5px] border px-2 py-1 text-[11px] font-medium transition ${
         approved
           ? "border-emerald-500 bg-emerald-50 text-emerald-700"
           : "border-slate-300 bg-white text-slate-600"
