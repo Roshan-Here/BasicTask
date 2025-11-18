@@ -1,35 +1,37 @@
-// app/[listingId]/page.tsx
-import { getNormalizedHostawayReviews } from "@/lib/hostaway";
-import { getApprovals } from "@/lib/approvalsStore";
-import { notFound } from "next/navigation";
+"use client";
+
+import { useReviews } from "@/hooks/useReviews";
+import { useApprovalsStore } from "@/lib/approvalsStore";
+import { useParams } from "next/navigation";
 import { ReviewsSection } from "../Main/ReviewsSection";
 
-interface Props {
-  params: Promise<{ listingId: string }>;
-}
 
-export default async function PropertyPage({ params }: Props) {
-  // ⬅️ THIS is the important change
-  const { listingId } = await params;
+export default function PropertyPage() {
+  const params = useParams<{ listingId: string }>();
+  const listingId = params.listingId;
 
-  const approvals = getApprovals();
-  const allReviews = (await getNormalizedHostawayReviews()).map((r) => ({
-    ...r,
-    approved: approvals[r.id] ?? false,
-  }));
+  const { data: allReviews = [], isLoading } = useReviews();
+  const approvals = useApprovalsStore((s) => s.approvals);
 
-  // All reviews for this listing (approved + not approved)
-  const listingReviews = allReviews.filter((r) => r.listingId === listingId);
+  const listingReviews = allReviews
+    .filter((r) => r.listingId === listingId)
+    .map((r) => ({
+      ...r,
+      approved: approvals[r.id] ?? false,
+    }));
 
-  if (!listingReviews.length) {
-    // no reviews at all for this listing id
-    notFound();
-  }
-
-  // Only approved reviews are shown on the public page
   const approvedReviews = listingReviews.filter((r) => r.approved);
-
   const listingName = listingReviews[0]?.listingName ?? listingId;
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-white">
+        <section className="mx-auto max-w-5xl px-4 py-8">
+          <p className="text-sm text-slate-600">Loading property…</p>
+        </section>
+      </main>
+    );
+  }
 
   return (
     <main className="min-h-screen bg-white">
@@ -40,8 +42,6 @@ export default async function PropertyPage({ params }: Props) {
         <p className="mb-6 text-sm text-slate-600">
           Modern serviced apartment in the heart of the city.
         </p>
-
-        {/* TODO: gallery, amenities, etc. */}
 
         <ReviewsSection reviews={approvedReviews} />
       </section>

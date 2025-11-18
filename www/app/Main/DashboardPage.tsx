@@ -1,11 +1,13 @@
 "use client";
 
 import { useMemo } from "react";
+
+import { useReviewsFilters } from "../func/ReviewsFilterContext";
+
 import { ReviewsFilters } from "@/types/filters";
 import { NormalizedReview } from "@/types/reviews";
-import { useReviewsFilters } from "../func/ReviewsFilterContext";
 import { useReviews } from "@/hooks/useReviews";
-import { useApproveReview } from "@/hooks/useApproveReview";
+import { useApprovalsStore } from "@/lib/approvalsStore";
 import { SummaryCards } from "./SummaryCards";
 import { FiltersBar } from "./FiltersBar";
 import { ReviewsTable } from "./ReviewsTable";
@@ -21,12 +23,23 @@ export default function DashboardPage() {
   } = useReviewsFilters();
 
   const { data: allReviews = [], isLoading, isError, error } = useReviews();
-  const approveMutation = useApproveReview();
+  const approvals = useApprovalsStore((s) => s.approvals);
+  const setApproval = useApprovalsStore((s) => s.setApproval);
+
+  const reviewsWithApprovals = useMemo(
+    () =>
+      allReviews.map((r) => ({
+        ...r,
+        approved: approvals[r.id] ?? false,
+      })),
+    [allReviews, approvals]
+  );
+
+console.log(reviewsWithApprovals)
 
   const filteredReviews = useMemo(() => {
-    let result: NormalizedReview[] = allReviews;
+    let result: NormalizedReview[] = reviewsWithApprovals;
 
-    // basic filters
     if (filters.listingId !== "all") {
       result = result.filter((r) => r.listingId === filters.listingId);
     }
@@ -58,7 +71,7 @@ export default function DashboardPage() {
     });
 
     return result;
-  }, [allReviews, filters]);
+  }, [reviewsWithApprovals, filters]);
 
   const handleFiltersChange = (next: ReviewsFilters) => {
     setListingId(next.listingId);
@@ -71,13 +84,11 @@ export default function DashboardPage() {
   };
 
   const handleToggleApproved = (reviewId: string, approved: boolean) => {
-    approveMutation.mutate({ reviewId, approved });
+    setApproval(reviewId, approved);
   };
 
   if (isLoading) {
-    return (
-      <div className="mt-8 text-sm text-slate-600">Loading reviews…</div>
-    );
+    return <div className="mt-8 text-sm text-slate-600">Loading reviews…</div>;
   }
 
   if (isError) {
@@ -95,7 +106,7 @@ export default function DashboardPage() {
       <FiltersBar
         filters={filters}
         onChange={handleFiltersChange}
-        reviews={allReviews} // for options
+        reviews={reviewsWithApprovals}
       />
 
       <ReviewsTable

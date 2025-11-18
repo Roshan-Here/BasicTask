@@ -1,16 +1,60 @@
-import { getNormalizedHostawayReviews } from "@/lib/hostaway";
-import { getApprovals } from "@/lib/approvalsStore";
-import { NormalizedReview } from "@/types/reviews";
+"use client";
+
+import { useMemo } from "react";
 import Link from "next/link";
+import { NormalizedReview } from "@/types/reviews";
+import { useApprovalsStore } from "@/lib/approvalsStore";
+import { useReviews } from "@/hooks/useReviews";
 
-export default async function ApprovedReviewsPage() {
-  const approvals = getApprovals();
-  const allReviews = (await getNormalizedHostawayReviews()).map((r) => ({
-    ...r,
-    approved: approvals[r.id] ?? false,
-  }));
+export default function ApprovedReviewsPage() {
+  const { data: allReviews = [], isLoading, isError, error } = useReviews();
+  const approvals = useApprovalsStore((s) => s.approvals);
 
-  const approvedReviews = allReviews.filter((r) => r.approved);
+  // Merge approvals from zustand
+  const reviewsWithApprovals = useMemo(
+    () =>
+      allReviews.map((r) => ({
+        ...r,
+        approved: approvals[r.id] ?? false,
+      })),
+    [allReviews, approvals]
+  );
+
+  const approvedReviews = useMemo(
+    () => reviewsWithApprovals.filter((r) => r.approved),
+    [reviewsWithApprovals]
+  );
+
+  if (isLoading) {
+    return (
+      <main className="min-h-screen bg-white">
+        <section className="mx-auto max-w-5xl px-4 py-10">
+          <p className="text-sm text-slate-600">Loading approved reviews…</p>
+        </section>
+      </main>
+    );
+  }
+
+  if (isError) {
+    return (
+      <main className="min-h-screen bg-white">
+        <section className="mx-auto max-w-5xl px-4 py-10">
+          <h1 className="mb-2 text-2xl font-semibold text-slate-900">
+            Approved guest reviews
+          </h1>
+          <p className="mb-4 text-sm text-rose-600">
+            Failed to load reviews: {error.message}
+          </p>
+          <Link
+            href="/"
+            className="inline-flex items-center rounded-lg bg-slate-900 px-4 py-2 text-sm font-medium text-white hover:bg-slate-800"
+          >
+            Go to dashboard
+          </Link>
+        </section>
+      </main>
+    );
+  }
 
   if (!approvedReviews.length) {
     return (
@@ -48,8 +92,7 @@ export default async function ApprovedReviewsPage() {
     return acc;
   }, {});
 
-  const groups = Object.entries(groupedByListing); 
-
+  const groups = Object.entries(groupedByListing);
   const total = approvedReviews.length;
 
   return (

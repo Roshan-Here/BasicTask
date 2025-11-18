@@ -1,18 +1,8 @@
-import { getNormalizedHostawayReviews } from "@/lib/hostaway";
-import { getApprovals } from "@/lib/approvalsStore";
 import DashboardPage from "./Main/DashboardPage";
 import { ReviewsFilterProvider } from "./func/ReviewsFilterContext";
 import Link from "next/link";
 
-export default async function Dashboard() {
-  const approvals = getApprovals();
-  const reviews = (await getNormalizedHostawayReviews()).map((r) => ({
-    ...r,
-    approved: approvals[r.id] ?? false,
-  }));
-
-  // console.log(reviews)
-
+export default function Dashboard() {
   return (
     <main className="min-h-screen bg-slate-50 px-4 py-6 md:px-6">
       <div className="flex items-center justify-between">
@@ -27,6 +17,7 @@ export default async function Dashboard() {
           View public-approved reviews
         </Link>
       </div>
+
       <ReviewsFilterProvider>
         <DashboardPage />
       </ReviewsFilterProvider>
