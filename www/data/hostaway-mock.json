@@ -1,0 +1,267 @@
+{
+  "status": "success",
+  "result": [
+    {
+      "id": 7453,
+      "type": "host-to-guest",
+      "status": "published",
+      "rating": null,
+      "publicReview": "Shane and family are wonderful! Would definitely host again :)",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 10 },
+        { "category": "communication", "rating": 10 },
+        { "category": "respect_house_rules", "rating": 10 }
+      ],
+      "submittedAt": "2020-08-21 22:45:14",
+      "guestName": "Shane Finkelstein",
+      "listingName": "2B N1 A - 29 Shoreditch Heights",
+      "listingMapId": 1001,
+      "channel": "airbnb"
+    },
+    {
+      "id": 7454,
+      "type": "guest-to-host",
+      "status": "published",
+      "rating": 9,
+      "publicReview": "Great location and very stylish flat, host was super responsive.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 9 },
+        { "category": "communication", "rating": 10 },
+        { "category": "location", "rating": 10 },
+        { "category": "value", "rating": 8 }
+      ],
+      "submittedAt": "2021-02-11 15:12:03",
+      "guestName": "Maria Lopez",
+      "listingName": "Modern Loft near Central Park",
+      "listingMapId": 1002,
+      "channel": "airbnb"
+    },
+    {
+      "id": 7455,
+      "type": "host-to-guest",
+      "status": "published",
+      "rating": 10,
+      "publicReview": "Left the apartment spotless and followed all house rules. Highly recommended.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 10 },
+        { "category": "communication", "rating": 9 },
+        { "category": "respect_house_rules", "rating": 10 }
+      ],
+      "submittedAt": "2021-05-03 09:22:47",
+      "guestName": "Alex Kim",
+      "listingName": "Cozy Studio in Old Town",
+      "listingMapId": 1003,
+      "channel": "booking"
+    },
+    {
+      "id": 7456,
+      "type": "guest-to-host",
+      "status": "pending",
+      "rating": 8,
+      "publicReview": "Nice apartment but there was some street noise at night.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 9 },
+        { "category": "communication", "rating": 8 },
+        { "category": "location", "rating": 7 },
+        { "category": "value", "rating": 8 }
+      ],
+      "submittedAt": "2021-07-19 18:31:09",
+      "guestName": "Jordan Smith",
+      "listingName": "Family Apartment Downtown",
+      "listingMapId": 1004,
+      "channel": "airbnb"
+    },
+    {
+      "id": 7457,
+      "type": "host-to-guest",
+      "status": "published",
+      "rating": null,
+      "publicReview": "Very easy to communicate with and left everything in great condition.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 9 },
+        { "category": "communication", "rating": 10 },
+        { "category": "respect_house_rules", "rating": 9 }
+      ],
+      "submittedAt": "2021-10-02 11:05:55",
+      "guestName": "Priya Patel",
+      "listingName": "Luxury Penthouse with City View",
+      "listingMapId": 1005,
+      "channel": "vrbo"
+    },
+    {
+      "id": 7458,
+      "type": "guest-to-host",
+      "status": "hidden",
+      "rating": 10,
+      "publicReview": "One of the best stays we've had. Beautiful views and super clean.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 10 },
+        { "category": "accuracy", "rating": 10 },
+        { "category": "check_in", "rating": 10 },
+        { "category": "communication", "rating": 10 }
+      ],
+      "submittedAt": "2022-01-15 20:40:21",
+      "guestName": "Luca Bianchi",
+      "listingName": "Beachfront Villa - Amalfi",
+      "listingMapId": 1006,
+      "channel": "direct"
+    },
+    {
+      "id": 7459,
+      "type": "host-to-guest",
+      "status": "published",
+      "rating": 9,
+      "publicReview": "Respectful guest, followed check-out instructions and house rules.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 9 },
+        { "category": "communication", "rating": 9 },
+        { "category": "respect_house_rules", "rating": 10 }
+      ],
+      "submittedAt": "2022-03-09 08:13:44",
+      "guestName": "Sara Khan",
+      "listingName": "Riverside Cottage Retreat",
+      "listingMapId": 1007,
+      "channel": "airbnb"
+    },
+    {
+      "id": 7460,
+      "type": "guest-to-host",
+      "status": "published",
+      "rating": 8,
+      "publicReview": "House was cozy and clean, check-in was a bit confusing but host helped quickly.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 9 },
+        { "category": "accuracy", "rating": 8 },
+        { "category": "check_in", "rating": 7 },
+        { "category": "communication", "rating": 9 }
+      ],
+      "submittedAt": "2022-06-24 17:54:02",
+      "guestName": "Omar Hassan",
+      "listingName": "Ski-in Ski-out Chalet",
+      "listingMapId": 1008,
+      "channel": "booking"
+    },
+    {
+      "id": 7461,
+      "type": "host-to-guest",
+      "status": "hidden",
+      "rating": null,
+      "publicReview": "Some noise complaints from neighbors but otherwise fine.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 8 },
+        { "category": "communication", "rating": 7 },
+        { "category": "respect_house_rules", "rating": 7 }
+      ],
+      "submittedAt": "2022-09-01 10:02:18",
+      "guestName": "Emily Williams",
+      "listingName": "Suburban Home with Garden",
+      "listingMapId": 1009,
+      "channel": "airbnb"
+    },
+    {
+      "id": 7462,
+      "type": "guest-to-host",
+      "status": "published",
+      "rating": 10,
+      "publicReview": "Perfect stay, everything as described and even better.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 10 },
+        { "category": "accuracy", "rating": 10 },
+        { "category": "location", "rating": 9 },
+        { "category": "value", "rating": 9 }
+      ],
+      "submittedAt": "2022-11-12 13:47:33",
+      "guestName": "Noah Brown",
+      "listingName": "Lake House with Private Dock",
+      "listingMapId": 1010,
+      "channel": "vrbo"
+    },
+    {
+      "id": 7463,
+      "type": "host-to-guest",
+      "status": "published",
+      "rating": 9,
+      "publicReview": "Easy to host, great communication and respected all house rules.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 9 },
+        { "category": "communication", "rating": 10 },
+        { "category": "respect_house_rules", "rating": 9 }
+      ],
+      "submittedAt": "2023-01-05 16:19:57",
+      "guestName": "Jordan Smith",
+      "listingName": "Modern Loft near Central Park",
+      "listingMapId": 1002,
+      "channel": "direct"
+    },
+    {
+      "id": 7464,
+      "type": "guest-to-host",
+      "status": "pending",
+      "rating": 7,
+      "publicReview": "Good stay overall, but the Wi-Fi was a bit unreliable.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 8 },
+        { "category": "communication", "rating": 9 },
+        { "category": "value", "rating": 7 },
+        { "category": "location", "rating": 8 }
+      ],
+      "submittedAt": "2023-03-18 21:30:11",
+      "guestName": "Maria Lopez",
+      "listingName": "Family Apartment Downtown",
+      "listingMapId": 1004,
+      "channel": "airbnb"
+    },
+    {
+      "id": 7465,
+      "type": "host-to-guest",
+      "status": "published",
+      "rating": null,
+      "publicReview": "Check-in was smooth and apartment was left tidy.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 9 },
+        { "category": "communication", "rating": 8 },
+        { "category": "respect_house_rules", "rating": 9 }
+      ],
+      "submittedAt": "2023-06-02 07:44:52",
+      "guestName": "Alex Kim",
+      "listingName": "Cozy Studio in Old Town",
+      "listingMapId": 1003,
+      "channel": "booking"
+    },
+    {
+      "id": 7466,
+      "type": "guest-to-host",
+      "status": "published",
+      "rating": 9,
+      "publicReview": "Amazing beachfront view and very comfortable bed. Highly recommend.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 9 },
+        { "category": "accuracy", "rating": 9 },
+        { "category": "location", "rating": 10 },
+        { "category": "value", "rating": 8 }
+      ],
+      "submittedAt": "2023-08-27 19:11:06",
+      "guestName": "Sara Khan",
+      "listingName": "Beachfront Villa - Amalfi",
+      "listingMapId": 1006,
+      "channel": "airbnb"
+    },
+    {
+      "id": 7467,
+      "type": "host-to-guest",
+      "status": "hidden",
+      "rating": null,
+      "publicReview": "Left the kitchen a bit messy but nothing major.",
+      "reviewCategory": [
+        { "category": "cleanliness", "rating": 7 },
+        { "category": "communication", "rating": 8 },
+        { "category": "respect_house_rules", "rating": 8 }
+      ],
+      "submittedAt": "2023-11-09 12:03:29",
+      "guestName": "Omar Hassan",
+      "listingName": "Suburban Home with Garden",
+      "listingMapId": 1009,
+      "channel": "expedia"
+    }
+  ]
+}
