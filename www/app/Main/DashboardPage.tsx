@@ -1,91 +1,107 @@
-// app/dashboard/DashboardPage.tsx
 "use client";
 
-import { useState, useMemo } from "react";
+import { useMemo } from "react";
+import { ReviewsFilters } from "@/types/filters";
 import { NormalizedReview } from "@/types/reviews";
+import { useReviewsFilters } from "../func/ReviewsFilterContext";
+import { useReviews } from "@/hooks/useReviews";
+import { useApproveReview } from "@/hooks/useApproveReview";
 import { SummaryCards } from "./SummaryCards";
 import { FiltersBar } from "./FiltersBar";
 import { ReviewsTable } from "./ReviewsTable";
-import { ReviewsFilters } from "@/types/filters";
 
-interface Props {
-  initialReviews: NormalizedReview[];
-}
+export default function DashboardPage() {
+  const {
+    filters,
+    setListingId,
+    setChannel,
+    setMinRating,
+    setSortBy,
+    toggleApprovedOnly,
+  } = useReviewsFilters();
 
-export default function DashboardPage({ initialReviews }: Props) {
-  const [filters, setFilters] = useState<ReviewsFilters>({
-    listingId: "all",
-    channel: "all",
-    minRating: 0,
-    showApprovedOnly: false,
-    sortBy: "date_desc", 
-  });
+  const { data: allReviews = [], isLoading, isError, error } = useReviews();
+  const approveMutation = useApproveReview();
 
+  const filteredReviews = useMemo(() => {
+    let result: NormalizedReview[] = allReviews;
 
-  const [reviews, setReviews] = useState(initialReviews);
-
-const filteredReviews = useMemo(() => {
-  let result = reviews.filter((r) => {
-    if (filters.listingId !== "all" && r.listingId !== filters.listingId)
-      return false;
-    if (filters.channel !== "all" && r.channel !== filters.channel)
-      return false;
-    if (filters.minRating > 0 && (r.overallRating ?? 0) < filters.minRating)
-      return false;
-    if (filters.showApprovedOnly && !r.approved) return false;
-    return true;
-  });
-
-  result = [...result].sort((a, b) => {
-    switch (filters.sortBy) {
-      case "date_desc":
-        return new Date(b.submittedAt).getTime() - new Date(a.submittedAt).getTime();
-
-      case "date_asc":
-        return new Date(a.submittedAt).getTime() - new Date(b.submittedAt).getTime();
-
-      case "rating_desc":
-        return (b.overallRating ?? 0) - (a.overallRating ?? 0);
-
-      case "rating_asc":
-        return (a.overallRating ?? 0) - (b.overallRating ?? 0);
-
-      default: {
-        const _exhaustiveCheck: never = filters.sortBy;
-        return 0;
-      }
+    // basic filters
+    if (filters.listingId !== "all") {
+      result = result.filter((r) => r.listingId === filters.listingId);
     }
-  });
+    if (filters.channel !== "all") {
+      result = result.filter((r) => r.channel === filters.channel);
+    }
+    if (filters.minRating > 0) {
+      result = result.filter(
+        (r) => (r.overallRating ?? 0) >= filters.minRating
+      );
+    }
+    if (filters.showApprovedOnly) {
+      result = result.filter((r) => r.approved);
+    }
 
-  return result;
-}, [reviews, filters]);
-
-
-  const handleToggleApproved = async (id: string, approved: boolean) => {
-    setReviews((prev) =>
-      prev.map((r) => (r.id === id ? { ...r, approved } : r))
-    );
-    await fetch("/api/reviews/approve", {
-      method: "POST",
-      body: JSON.stringify({ reviewId: id, approved }),
-      headers: { "Content-Type": "application/json" },
+    result = result.slice().sort((a, b) => {
+      switch (filters.sortBy) {
+        case "date_desc":
+          return b.submittedAt.localeCompare(a.submittedAt);
+        case "date_asc":
+          return a.submittedAt.localeCompare(b.submittedAt);
+        case "rating_desc":
+          return (b.overallRating ?? 0) - (a.overallRating ?? 0);
+        case "rating_asc":
+          return (a.overallRating ?? 0) - (b.overallRating ?? 0);
+        default:
+          return 0;
+      }
     });
+
+    return result;
+  }, [allReviews, filters]);
+
+  const handleFiltersChange = (next: ReviewsFilters) => {
+    setListingId(next.listingId);
+    setChannel(next.channel);
+    setMinRating(next.minRating);
+    if (next.sortBy) setSortBy(next.sortBy);
+    if (next.showApprovedOnly !== filters.showApprovedOnly) {
+      toggleApprovedOnly();
+    }
   };
 
-  return (
-    <div className="min-h-screen bg-slate-50 px-6 py-8">
-      <h1 className="text-2xl font-semibold text-slate-900 mb-6">
-        Flex Living – Reviews Dashboard
-      </h1>
+  const handleToggleApproved = (reviewId: string, approved: boolean) => {
+    approveMutation.mutate({ reviewId, approved });
+  };
 
+  if (isLoading) {
+    return (
+      <div className="mt-8 text-sm text-slate-600">Loading reviews…</div>
+    );
+  }
+
+  if (isError) {
+    return (
+      <div className="mt-8 rounded-md border border-rose-200 bg-rose-50 px-4 py-3 text-sm text-rose-700">
+        Failed to load reviews: {error.message}
+      </div>
+    );
+  }
+
+  return (
+    <>
       <SummaryCards reviews={filteredReviews} />
 
-      <FiltersBar filters={filters} onChange={setFilters} reviews={reviews} />
+      <FiltersBar
+        filters={filters}
+        onChange={handleFiltersChange}
+        reviews={allReviews} // for options
+      />
 
       <ReviewsTable
         reviews={filteredReviews}
         onToggleApproved={handleToggleApproved}
       />
-    </div>
+    </>
   );
 }

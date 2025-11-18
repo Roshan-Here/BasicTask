@@ -2,7 +2,25 @@
 
 import { NormalizedReview } from "@/types/reviews";
 import { ReviewsFilters, SortBy } from "@/types/filters";
-import { ChangeEvent } from "react";
+import { ChangeEvent, useState } from "react";
+import { ChevronDown, ChevronUp } from "lucide-react";
+
+import { Label } from "@/components/ui/label";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+
+const DEFAULT_FILTERS: ReviewsFilters = {
+  listingId: "all",
+  channel: "all",
+  minRating: 0,
+  showApprovedOnly: false,
+  sortBy: "date_desc",
+};
 
 interface FiltersBarProps {
   filters: ReviewsFilters;
@@ -11,10 +29,12 @@ interface FiltersBarProps {
 }
 
 export function FiltersBar({ filters, onChange, reviews }: FiltersBarProps) {
+  const [isListingOpen, setIsListingOpen] = useState(false);
+  const [isChannelOpen, setIsChannelOpen] = useState(false);
+  const [isSortOpen, setIsSortOpen] = useState(false);
+
   const listingOptions = Array.from(
-    new Map(
-      reviews.map((r) => [r.listingId, r.listingName])
-    ).entries()
+    new Map(reviews.map((r) => [r.listingId, r.listingName])).entries()
   );
 
   const channelOptions = Array.from(
@@ -23,8 +43,8 @@ export function FiltersBar({ filters, onChange, reviews }: FiltersBarProps) {
 
   const handleSelectChange =
     (field: keyof ReviewsFilters) =>
-    (e: ChangeEvent<HTMLSelectElement>) => {
-      onChange({ ...filters, [field]: e.target.value });
+    (value: string) => {
+      onChange({ ...filters, [field]: value });
     };
 
   const handleMinRatingChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -32,12 +52,16 @@ export function FiltersBar({ filters, onChange, reviews }: FiltersBarProps) {
     onChange({ ...filters, minRating: value });
   };
 
-  const handleSortChange = (e: ChangeEvent<HTMLSelectElement>) => {
-    onChange({ ...filters, sortBy: e.target.value as SortBy });
+  const handleSortChange = (value: SortBy) => {
+    onChange({ ...filters, sortBy: value });
   };
 
   const handleToggleApproved = () => {
     onChange({ ...filters, showApprovedOnly: !filters.showApprovedOnly });
+  };
+
+  const handleReset = () => {
+    onChange(DEFAULT_FILTERS);
   };
 
   return (
@@ -46,58 +70,75 @@ export function FiltersBar({ filters, onChange, reviews }: FiltersBarProps) {
       <div className="grid w-full gap-3 sm:grid-cols-2 md:grid-cols-3">
         {/* Listing filter */}
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-slate-600">
+          <Label className="text-xs font-medium text-slate-600">
             Property
-          </label>
-          <select
+          </Label>
+          <Select
             value={filters.listingId}
-            onChange={handleSelectChange("listingId")}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
+            onValueChange={handleSelectChange("listingId")}
+            onOpenChange={setIsListingOpen}
           >
-            <option value="all">All properties</option>
-            {listingOptions.map(([id, name]) => (
-              <option key={id} value={id}>
-                {name}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All properties</SelectItem>
+              {listingOptions.map(([id, name]) => (
+                <SelectItem key={id} value={String(id)}>
+                  {name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Channel filter */}
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-slate-600">Channel</label>
-          <select
+          <Label className="text-xs font-medium text-slate-600">
+            Channel
+          </Label>
+          <Select
             value={filters.channel}
-            onChange={handleSelectChange("channel")}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
+            onValueChange={handleSelectChange("channel")}
+            onOpenChange={setIsChannelOpen}
           >
-            <option value="all">All channels</option>
-            {channelOptions.map((ch) => (
-              <option key={ch} value={ch}>
-                {ch}
-              </option>
-            ))}
-          </select>
+            <SelectTrigger className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="all">All channels</SelectItem>
+              {channelOptions.map((ch) => (
+                <SelectItem key={ch} value={String(ch)}>
+                  {ch}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
         </div>
 
         {/* Sort by */}
         <div className="flex flex-col gap-1">
-          <label className="text-xs font-medium text-slate-600">
+          <Label className="text-xs font-medium text-slate-600">
             Sort by
-          </label>
-          <select
+          </Label>
+          <Select
             value={filters.sortBy}
-            onChange={handleSortChange}
-            className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10"
+            onValueChange={(val) => handleSortChange(val as SortBy)}
+            onOpenChange={setIsSortOpen}
           >
-            <option value="date_desc">Newest first</option>
-            <option value="date_asc">Oldest first</option>
-            <option value="rating_desc">Highest rating</option>
-            <option value="rating_asc">Lowest rating</option>
-          </select>
+            <SelectTrigger className="w-full rounded-lg border border-slate-300 bg-white px-3 py-2 text-sm text-slate-900 shadow-sm focus:border-slate-900 focus:outline-none focus:ring-2 focus:ring-slate-900/10">
+              <SelectValue />
+            </SelectTrigger>
+            <SelectContent>
+              <SelectItem value="date_desc">Newest first</SelectItem>
+              <SelectItem value="date_asc">Oldest first</SelectItem>
+              <SelectItem value="rating_desc">Highest rating</SelectItem>
+              <SelectItem value="rating_asc">Lowest rating</SelectItem>
+            </SelectContent>
+          </Select>
         </div>
 
-        {/* Min rating (on small we show here, on larger it's okay too) */}
+        {/* Min rating */}
         <div className="flex flex-col gap-1 sm:col-span-2 md:col-span-3 lg:col-span-1">
           <label className="flex items-center justify-between text-xs font-medium text-slate-600">
             <span>Min rating</span>
@@ -117,12 +158,12 @@ export function FiltersBar({ filters, onChange, reviews }: FiltersBarProps) {
         </div>
       </div>
 
-      {/* Right: toggles */}
-      <div className="flex items-center justify-between gap-3 md:flex-col md:items-end">
+      {/* Right: toggles + reset */}
+      <div className="flex items-center justify-between gap-3  md:items-end">
         <button
           type="button"
           onClick={handleToggleApproved}
-          className={`inline-flex items-center gap-2 rounded-full border px-3 py-1.5 text-xs font-medium ${
+          className={`inline-flex items-center  whitespace-nowrap gap-2 rounded-lg border px-3 py-1.5 text-xs font-medium ${
             filters.showApprovedOnly
               ? "border-emerald-500 bg-emerald-50 text-emerald-700"
               : "border-slate-300 bg-white text-slate-700"
@@ -132,10 +173,16 @@ export function FiltersBar({ filters, onChange, reviews }: FiltersBarProps) {
             className={`flex h-3 w-3 items-center justify-center rounded-full ${
               filters.showApprovedOnly ? "bg-emerald-500" : "bg-slate-300"
             }`}
-          >
-            <span className="h-1.5 w-1.5 rounded-full bg-white" />
-          </span>
+          ></span>
           Approved only
+        </button>
+
+        <button
+          type="button"
+          onClick={handleReset}
+          className="inline-flex items-center whitespace-nowrap rounded-lg bg-blue-200 border border-slate-200 px-3 py-1.5 text-xs font-medium text-slate-600 hover:bg-blue-500 hover:text-white"
+        >
+          Reset filters
         </button>
       </div>
     </div>
