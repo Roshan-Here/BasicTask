@@ -1,5 +1,4 @@
 import { NextRequest, NextResponse } from "next/server";
-import { setApproval } from "@/lib/approvalsStore";
 
 export async function POST(req: NextRequest) {
   const { reviewId, approved } = await req.json();
@@ -10,6 +9,5 @@ export async function POST(req: NextRequest) {
     );
   }
 
-  setApproval(reviewId, approved);
   return NextResponse.json({ success: true });
 }
